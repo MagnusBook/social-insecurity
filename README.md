@@ -2,6 +2,8 @@
 
 This project is defines a social media web application lacking many key security features. The goal is to identify as many of these as possible, and then proceed to patch them. It can also be used for practice from the perspective of an attacker.
 
+There are also some comments around the code from the "previous developers" that didn't have time to focus on security while developing the application. These may point in a possible direction to improve security, but of course you are free to choose your own path and implementation.
+
 ## Installing dependencies
 Within the root folder of this application, ther is a `requirements.txt` file, which lists all the python requirements necessary to run the application. If you do not have pyhon installed, I would recommend installing  [anaconda](https://www.anaconda.com/distribution/), since it comes with many packages pre-installed, as well as some other useful tools.
 
