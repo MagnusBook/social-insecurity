@@ -20,7 +20,7 @@ Run the following command to start the Flask application:
 flask run
 ```
 
-You should now be able to access the application through your web browser by accessing [localhost:5000](localhost:5000) in the address bar.
+You should now be able to access the application through your web browser by accessing [localhost:5000](http://localhost:5000) in the address bar.
 
 ## Common issues
 Some installations show an error similar to this when starting the application for the first time: 
