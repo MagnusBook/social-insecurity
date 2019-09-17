@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block content %}
+<div class="container-flex justify-content-center">
+    <div class="row justify-content-center">
+        <div class="col-sm-12 col-lg-6">
+            <div class="card">
+                <div class="card-body">
+                    <h1>Share something</h1>
+                    <form action="" method="POST" novalidate enctype="multipart/form-data">
+                        {{ wtf.form_field(form.content) }}
+                        {{ wtf.form_field(form.image) }}
+                        {{ wtf.form_field(form.submit, class="btn btn-primary") }}
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% for post in posts %}
+    <div class="row justify-content-center">
+        <div class="col-sm-12 col-lg-6">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row align-items-center">
+                        <a class="col-4" href={{url_for('profile', username=post.username)}}><span class="fa fa-user" style="font-size: 25px"></span>&nbsp;{{post.username}}</a>
+                        <span class="col-8 text-right">{{post.creation_time}}</span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">{{post.content}}</p>
+                    {% if post.image %}
+                    <img src="{{'/static/uploads/' + post.image}}" class="card-img-bottom">
+                    {% endif %}
+                    <a href={{ url_for('comments', username=username, p_id=post.id) }}><span class="fa fa-comment"></span>&nbsp;Comments({{post.cc}})</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

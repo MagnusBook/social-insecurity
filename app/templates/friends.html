@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block content %}
+<div class="container-flex justify-content-center">
+    <div class="row justify-content-center">
+        <div class="col-sm-12 col-lg-6">
+            <div class="card">
+                <div class="card-body">
+                    <h1 class="card-text"><span class="fa fa-user-plus"></span>&nbsp;Add a new friend</h1>
+                    <form action="" method="POST" novalidate>
+                        {{ wtf.form_field(form.username) }}
+                        {{ wtf.form_field(form.submit, class="btn btn-primary") }}
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-sm-12 col-lg-6">
+            <div class="card">
+                <div class="card-body">
+                    <h1 class="card-text">Your friends</h1>
+                    <ul class="list-group list-group-flush">
+                        {% for friend in friends %}
+                        <li class="list-group-item"><a href={{url_for('profile', username=friend.username)}}>{{friend.username}}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

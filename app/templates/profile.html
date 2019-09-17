@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block content %}
+<div class="container-flex justify-content-center">
+    <div class="row justify-content-center">
+        <div class="col-sm-12 col-lg-6">
+            <div class="card">
+                <div class="card-body">
+                    <h1 class="card-text">About {{username}}</h1>
+                    <button type="button" class="btn btn-link" id="edit-button"><span class="fa fa-edit"></span>&nbsp;Edit</button>
+                    <!--View details-->
+                    <div id="view-details">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item d-inline">
+                                <div class="row">
+                                    <p class="col-sm-2">Name:</p>
+                                    <p class="text-right col-sm-10 text-muted">{{user.first_name}} {{user.last_name}}</p>
+                                </div>
+                            </li>
+                            <li class="list-group-item d-inline">
+                                <div class="row">
+                                    <p class="col-sm-2">Education:</p>
+                                    <p class="text-right col-sm-10 text-muted">{{user.education}}</p>
+                                </div>
+                            </li>
+                            <li class="list-group-item d-inline">
+                                <div class="row">
+                                    <p class="col-sm-2">Employment:</p>
+                                    <p class="text-right col-sm-10 text-muted">{{user.employment}}</p>
+                                </div>
+                            </li>
+                            <li class="list-group-item d-inline">
+                                <div class="row">
+                                    <p class="col-sm-2">Favorite song:</p>
+                                    <p class="text-right col-sm-10 text-muted">{{user.music}}</p>
+                                </div>
+                            </li>
+                            <li class="list-group-item d-inline">
+                                <div class="row">
+                                    <p class="col-sm-2">Favorite movie:</p>
+                                    <p class="text-right col-sm-10 text-muted">{{user.movie}}</p>
+                                </div>
+                            </li>
+                            <li class="list-group-item d-inline">
+                                <div class="row">
+                                    <p class="col-sm-2">Nationality:</p>
+                                    <p class="text-right col-sm-10 text-muted">{{user.nationality}}</p>
+                                </div>
+                            </li>
+                            <li class="list-group-item d-inline">
+                                <div class="row">
+                                    <p class="col-sm-2">Birthday:</p>
+                                    <p class="text-right col-sm-10 text-muted">{{user.birthday}}</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <!--Edit details-->
+                    <div id="edit-details" style="display: none;">
+                        <form action="" method="POST" novalidate>
+                            {{ wtf.form_field(form.education) }}
+                            {{ wtf.form_field(form.employment) }}
+                            {{ wtf.form_field(form.music) }}
+                            {{ wtf.form_field(form.movie) }}
+                            {{ wtf.form_field(form.nationality) }}
+                            {{ wtf.form_field(form.birthday) }}
+                            {{ wtf.form_field(form.submit, class="btn btn-primary") }}
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script>
+$('#edit-button').click(function() {
+    $('#view-details').toggle();
+    $('#edit-details').toggle();
+});
+</script>
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block content %}    
+<div class="jumbotron jumbotron-fluid">
+    <div class="container">
+        <h1 class="display-4">Social Insecurity</h1>
+        <p class="lead">The social network for the insecure&trade;</p>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12 col-lg-6">
+            <div class="card text-center">
+                <div class="card-header">
+                    Sign In
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Access an existing profile</h5>
+                    <form action="" method="POST" novalidate>
+                        {{ wtf.form_field(form.login.username) }}
+                        {{ wtf.form_field(form.login.password) }}
+                        {{ wtf.form_field(form.login.remember_me) }}
+                        {{ wtf.form_field(form.login.submit, class="btn btn-primary") }}
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12 col-lg-6">
+            <div class="card text-center">
+                <div class="card-header">
+                    Register
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Create a new profile</h5>
+                    <form action="", method="POST" novalidate>
+                        {{ wtf.form_field(form.register.first_name) }}
+                        {{ wtf.form_field(form.register.last_name) }}
+                        {{ wtf.form_field(form.register.username) }}
+                        {{ wtf.form_field(form.register.password) }}
+                        {{ wtf.form_field(form.register.confirm_password) }}
+                        {{ wtf.form_field(form.register.submit, class="btn btn-primary") }}
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
