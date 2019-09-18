@@ -38,7 +38,8 @@ CREATE TABLE [Posts](
   u_id INTEGER,
   content INTEGER,
   [image] VARCHAR,
-  [creation_time] DATETIME
+  [creation_time] DATETIME,
+  FOREIGN KEY (u_id) REFERENCES [Users](id)
 );
 
 
@@ -52,7 +53,9 @@ DROP TABLE IF EXISTS [Friends];
 CREATE TABLE [Friends](
   u_id INTEGER NOT NULL REFERENCES Users,
   f_id INTEGER NOT NULL REFERENCES Users,
-  PRIMARY KEY(u_id, f_id)
+  PRIMARY KEY(u_id, f_id),
+  FOREIGN KEY (u_id) REFERENCES [Users](id),
+  FOREIGN KEY (f_id) REFERENCES [Users](id)
 );
 
 -- ---
@@ -67,15 +70,7 @@ CREATE TABLE [Comments](
   p_id INTEGER,
   u_id INTEGER,
   comment VARCHAR,
-  [creation_time] DATETIME
+  [creation_time] DATETIME,
+  FOREIGN KEY (p_id) REFERENCES Posts(id),
+  FOREIGN KEY (u_id) REFERENCES Users(id)
 );
-
--- ---
--- Foreign Keys 
--- ---
-
-ALTER TABLE [Posts] ADD FOREIGN KEY (u_id) REFERENCES [Users] (id);
-ALTER TABLE [Comments] ADD FOREIGN KEY (p_id) REFERENCES [Posts] (id);
-ALTER TABLE [Comments] ADD FOREIGN KEY (u_id) REFERENCES [Users] (id);
-ALTER TABLE [Friends] ADD FOREIGN KEY (u_id) REFERENCES [Users] (id);
-ALTER TABLE [Friends] ADD FOREIGN KEY (f_id) REFERENCES [Users] (id);
