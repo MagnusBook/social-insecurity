@@ -72,5 +72,11 @@ Most important files/directories:
 - `static/`: Static content, such as css, JavaScript and images can be stored and accessed here from anywhere in the application.
 - `templates`: Contains all the HTML in a template format. This allows the Flask backend to display content dynamically, by integrating logical operators and variables into HTML. These are populated once the user requests one of the sites.
 
+## Useful resources
+- [Good tutorial for flask](https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world)
+- [Reference and tutorial for SQL](https://www.w3schools.com/sql/default.asp)
+- [Git and GitHub tutorial - Useful for collaborating with your team](https://towardsdatascience.com/getting-started-with-git-and-github-6fcd0f2d4ac6)
+- [JavaScript tutorial and reference](https://www.w3schools.com/js/default.asp)
+
 ## Questions
 If you have any questions or problems, don't hesitate to contact me, and I will get back to you as soon as possible.
