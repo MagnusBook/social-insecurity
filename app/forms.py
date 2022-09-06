@@ -1,6 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, FormField, TextAreaField, FileField
-from wtforms.fields.html5 import DateField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, FormField, TextAreaField, FileField, DateField
 
 # defines all forms in the application, these will be instantiated by the template,
 # and the routes.py will read the values of the fields
