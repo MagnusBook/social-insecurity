@@ -1,0 +1,27 @@
+{% macro render_field(field) %}
+  {% if field.type == 'CSRFTokenField' %}
+    {{ field }}
+    {% if field.errors %}
+      {% for error in field.errors %}<div class="invalid-feedback">{{ error }}</div>{% endfor %}
+    {% endif %}
+  {% elif field.type == 'HiddenField' %}
+    {{ field }}
+  {% else %}
+    {% set errcls %}{{ 'is-invalid' if field.errors else '' }}{% endset %}
+    <div class="input-group mb-3">
+      {% if field.type == "BooleanField" %}
+        <div class="form-check">
+          {{ field.label(class_="form-check-label")}}
+          {{ field(class_="form-check-input" + errcls, **kwargs) | safe }}
+        </div>
+      {% elif field.type == "SubmitField" %}
+        {{ field(class_="btn btn-primary", **kwargs) | safe }}
+      {% else %}
+        {{ field(class_="form-control" + errcls, **kwargs) | safe }}
+        {% if field.errors %}
+          {% for error in field.errors %}<div class="invalid-feedback">{{ error }}</div>{% endfor %}
+        {% endif %}
+      {% endif %}
+    </div>
+  {% endif %}
+{% endmacro %}
