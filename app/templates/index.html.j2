@@ -1,5 +1,4 @@
 {% extends "base.html.j2" %}
-{% import "bootstrap/wtf.html" as wtf %}
 {% block content %}
   <div class="jumbotron jumbotron-fluid">
     <div class="container">
@@ -15,10 +14,10 @@
           <div class="card-body">
             <h5 class="card-title">Access an existing profile</h5>
             <form action="" method="post" novalidate>
-              {{ wtf.form_field(form.login.username) }}
-              {{ wtf.form_field(form.login.password) }}
-              {{ wtf.form_field(form.login.remember_me) }}
-              {{ wtf.form_field(form.login.submit, class="btn btn-primary") }}
+              {{ form.login.username }}
+              {{ form.login.password }}
+              {{ form.login.remember_me }}
+              {{ form.login.submit(class_="btn btn-primary") }}
             </form>
           </div>
         </div>
@@ -29,12 +28,12 @@
           <div class="card-body">
             <h5 class="card-title">Create a new profile</h5>
             <form action="", method="post" novalidate>
-              {{ wtf.form_field(form.register.first_name) }}
-              {{ wtf.form_field(form.register.last_name) }}
-              {{ wtf.form_field(form.register.username) }}
-              {{ wtf.form_field(form.register.password) }}
-              {{ wtf.form_field(form.register.confirm_password) }}
-              {{ wtf.form_field(form.register.submit, class="btn btn-primary") }}
+              {{ form.register.first_name }}
+              {{ form.register.last_name }}
+              {{ form.register.username }}
+              {{ form.register.password }}
+              {{ form.register.confirm_password }}
+              {{ form.register.submit(class_="btn btn-primary") }}
             </form>
           </div>
         </div>

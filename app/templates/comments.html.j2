@@ -1,5 +1,4 @@
 {% extends "base.html.j2" %}
-{% import "bootstrap/wtf.html" as wtf %}
 {% block content %}
   <div class="container-flex justify-content-center">
     <div class="row justify-content-center">
@@ -17,8 +16,8 @@
             {% if post.image %}<img src="{{ '/static/uploads/' + post.image }}" class="card-img-bottom">{% endif %}
             <h4 class="card-text">Comments</h4>
             <form action="" method="post" novalidate>
-              {{ wtf.form_field(form.comment) }}
-              {{ wtf.form_field(form.submit, class="btn btn-primary") }}
+              {{ form.comment }}
+              {{ form.submit(class="btn btn-primary") }}
             </form>
             <br/>
             <ul class="list-group list-group-flush">

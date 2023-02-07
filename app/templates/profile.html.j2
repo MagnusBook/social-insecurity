@@ -1,5 +1,4 @@
 {% extends "base.html.j2" %}
-{% import "bootstrap/wtf.html" as wtf %}
 {% block content %}
   <div class="container-flex justify-content-center">
     <div class="row justify-content-center">
@@ -7,7 +6,9 @@
         <div class="card">
           <div class="card-body">
             <h1 class="card-text">About {{ username }}</h1>
-            <button type="button" class="btn btn-link" id="edit-button">
+            <button type="button"
+                    class="btn btn-link"
+                    onclick="switchVisibility('#view-details', '#edit-details')">
               <span class="fa fa-edit"></span>&nbsp;Edit
             </button>
             <!--View details-->
@@ -60,13 +61,13 @@
             <!--Edit details-->
             <div id="edit-details" style="display: none;">
               <form action="" method="post" novalidate>
-                {{ wtf.form_field(form.education) }}
-                {{ wtf.form_field(form.employment) }}
-                {{ wtf.form_field(form.music) }}
-                {{ wtf.form_field(form.movie) }}
-                {{ wtf.form_field(form.nationality) }}
-                {{ wtf.form_field(form.birthday) }}
-                {{ wtf.form_field(form.submit, class="btn btn-primary") }}
+                {{ form.education }}
+                {{ form.employment }}
+                {{ form.music }}
+                {{ form.movie }}
+                {{ form.nationality }}
+                {{ form.birthday }}
+                {{ form.submit(class="btn btn-primary") }}
               </form>
             </div>
           </div>
@@ -77,9 +78,14 @@
 {% endblock content %}
 {% block script %}
   <script>
-    $('#edit-button').click(function() {
-        $('#view-details').toggle();
-        $('#edit-details').toggle();
-    });
+    function switchVisibility(elem1, elem2) {
+        let viewDetails = document.querySelector(elem1);
+        let editDetails = document.querySelector(elem2);
+
+        viewDetails.style.display = (
+            viewDetails.style.display == "block" ? "none" : "block");
+        editDetails.style.display = (
+            editDetails.style.display == "block" ? "none" : "block");
+    };
   </script>
 {% endblock script %}

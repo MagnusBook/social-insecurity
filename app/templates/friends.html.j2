@@ -1,5 +1,4 @@
 {% extends "base.html.j2" %}
-{% import "bootstrap/wtf.html" as wtf %}
 {% block content %}
   <div class="container-flex justify-content-center">
     <div class="row justify-content-center">
@@ -10,8 +9,8 @@
               <span class="fa fa-user-plus"></span>&nbsp;Add a new friend
             </h1>
             <form action="" method="post" novalidate>
-              {{ wtf.form_field(form.username) }}
-              {{ wtf.form_field(form.submit, class="btn btn-primary") }}
+              {{ form.username }}
+              {{ form.submit(class="btn btn-primary") }}
             </form>
           </div>
         </div>

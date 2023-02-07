@@ -1,5 +1,4 @@
 {% extends "base.html.j2" %}
-{% import "bootstrap/wtf.html" as wtf %}
 {% block content %}
   <div class="container-flex justify-content-center">
     <div class="row justify-content-center">
@@ -8,9 +7,9 @@
           <div class="card-body">
             <h1>Share something</h1>
             <form action="" method="post" novalidate enctype="multipart/form-data">
-              {{ wtf.form_field(form.content) }}
-              {{ wtf.form_field(form.image) }}
-              {{ wtf.form_field(form.submit, class="btn btn-primary") }}
+              {{ form.content }}
+              {{ form.image }}
+              {{ form.submit(class="btn btn-primary") }}
             </form>
           </div>
         </div>
