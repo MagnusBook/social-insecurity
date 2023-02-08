@@ -1,15 +1,12 @@
 -- ---
 -- Globals
 -- ---
-
 -- SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 -- SET FOREIGN_KEY_CHECKS=0;
-
 -- ---
 -- Table 'Users'
--- 
+--
 -- ---
-
 DROP TABLE IF EXISTS [Users];
 
 CREATE TABLE [Users] (
@@ -28,9 +25,8 @@ CREATE TABLE [Users] (
 
 -- ---
 -- Table 'Posts'
--- 
+--
 -- ---
-
 DROP TABLE IF EXISTS [Posts];
 
 CREATE TABLE [Posts](
@@ -42,12 +38,10 @@ CREATE TABLE [Posts](
   FOREIGN KEY (u_id) REFERENCES [Users](id)
 );
 
-
 -- ---
 -- Table 'Friends'
--- 
+--
 -- ---
-
 DROP TABLE IF EXISTS [Friends];
 
 CREATE TABLE [Friends](
@@ -60,9 +54,8 @@ CREATE TABLE [Friends](
 
 -- ---
 -- Table 'Comments'
--- 
+--
 -- ---
-
 DROP TABLE IF EXISTS [Comments];
 
 CREATE TABLE [Comments](
