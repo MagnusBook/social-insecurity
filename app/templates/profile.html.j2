@@ -2,58 +2,59 @@
 {% block content %}
   <div class="container-flex justify-content-center">
     <div class="row justify-content-center">
+      <!-- Profile card -->
       <div class="col-sm-12 col-lg-6">
         <div class="card">
           <div class="card-body">
-            <h1 class="card-text">About {{ username }}</h1>
+            <h4 class="card-title mb-3">About {{ username }}</h4>
             <button type="button"
-                    class="btn btn-link"
-                    onclick="switchVisibility('#view-details', '#edit-details')">
-              <span class="fa fa-edit"></span>&nbsp;Edit
+                    class="btn btn-link mb-3"
+                    onclick="switchVisibility('#edit-details', '#view-details')">
+              <span class="fa fa-edit me-1" aria-hidden="true"></span>Edit
             </button>
-            <!--View details-->
-            <div id="view-details">
+            <!--View profile details-->
+            <div id="view-details" style="display: block;">
               <ul class="list-group list-group-flush">
-                <li class="list-group-item d-inline">
+                <li class="list-group-item">
                   <div class="row">
-                    <p class="col-sm-2">Name:</p>
-                    <p class="text-right col-sm-10 text-muted">{{ user.first_name }} {{ user.last_name }}</p>
+                    <span class="col-sm-2">Name:</span>
+                    <span class="text-right col-sm-10 text-muted">{{ user.first_name }} {{ user.last_name }}</span>
                   </div>
                 </li>
                 <li class="list-group-item d-inline">
                   <div class="row">
-                    <p class="col-sm-2">Education:</p>
-                    <p class="text-right col-sm-10 text-muted">{{ user.education }}</p>
+                    <span class="col-sm-2">Education:</span>
+                    <span class="text-right col-sm-10 text-muted">{{ user.education }}</span>
                   </div>
                 </li>
                 <li class="list-group-item d-inline">
                   <div class="row">
-                    <p class="col-sm-2">Employment:</p>
-                    <p class="text-right col-sm-10 text-muted">{{ user.employment }}</p>
+                    <span class="col-sm-2">Employment:</span>
+                    <span class="text-right col-sm-10 text-muted">{{ user.employment }}</span>
                   </div>
                 </li>
                 <li class="list-group-item d-inline">
                   <div class="row">
-                    <p class="col-sm-2">Favorite song:</p>
-                    <p class="text-right col-sm-10 text-muted">{{ user.music }}</p>
+                    <span class="col-sm-2">Favorite song:</span>
+                    <span class="text-right col-sm-10 text-muted">{{ user.music }}</span>
                   </div>
                 </li>
                 <li class="list-group-item d-inline">
                   <div class="row">
-                    <p class="col-sm-2">Favorite movie:</p>
-                    <p class="text-right col-sm-10 text-muted">{{ user.movie }}</p>
+                    <span class="col-sm-2">Favorite movie:</span>
+                    <span class="text-right col-sm-10 text-muted">{{ user.movie }}</span>
                   </div>
                 </li>
                 <li class="list-group-item d-inline">
                   <div class="row">
-                    <p class="col-sm-2">Nationality:</p>
-                    <p class="text-right col-sm-10 text-muted">{{ user.nationality }}</p>
+                    <span class="col-sm-2">Nationality:</span>
+                    <span class="text-right col-sm-10 text-muted">{{ user.nationality }}</span>
                   </div>
                 </li>
                 <li class="list-group-item d-inline">
                   <div class="row">
-                    <p class="col-sm-2">Birthday:</p>
-                    <p class="text-right col-sm-10 text-muted">{{ user.birthday }}</p>
+                    <span class="col-sm-2">Birthday:</span>
+                    <span class="text-right col-sm-10 text-muted">{{ user.birthday }}</span>
                   </div>
                 </li>
               </ul>
@@ -61,13 +62,13 @@
             <!--Edit details-->
             <div id="edit-details" style="display: none;">
               <form action="" method="post" novalidate>
-                {{ form.education }}
-                {{ form.employment }}
-                {{ form.music }}
-                {{ form.movie }}
-                {{ form.nationality }}
-                {{ form.birthday }}
-                {{ form.submit(class="btn btn-primary") }}
+                <div class="mb-2">{{ form.education(class_="form-control") }}</div>
+                <div class="mb-2">{{ form.employment(class_="form-control") }}</div>
+                <div class="mb-2">{{ form.music(class_="form-control") }}</div>
+                <div class="mb-2">{{ form.movie(class_="form-control") }}</div>
+                <div class="mb-2">{{ form.nationality(class_="form-control") }}</div>
+                <div class="mb-3">{{ form.birthday(class_="form-control") }}</div>
+                <div>{{ form.submit(class="btn btn-primary") }}</div>
               </form>
             </div>
           </div>
@@ -79,8 +80,8 @@
 {% block script %}
   <script>
     function switchVisibility(elem1, elem2) {
-        let viewDetails = document.querySelector(elem1);
-        let editDetails = document.querySelector(elem2);
+        const viewDetails = document.querySelector(elem1);
+        const editDetails = document.querySelector(elem2);
 
         viewDetails.style.display = (
             viewDetails.style.display == "block" ? "none" : "block");

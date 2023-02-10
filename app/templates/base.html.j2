@@ -6,7 +6,7 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
     <!-- Local CSS -->
-    <link rel="stylesheet" href="../static/css/general.css"/>
+    <link rel="stylesheet" href={{ url_for('static', filename='css/general.css') }}/>
     <!-- Font Awesome CSS v4.7.2 -->
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
           rel="stylesheet"/>
@@ -18,64 +18,76 @@
     <title>{{ title }} - Social Insecurity</title>
   </head>
   <body>
+    <!-- Navbar - Index page -->
     {% if title == 'Welcome' %}
       <nav class="navbar navbar-dark bg-primary fixed-top">
-        <a class="navbar-brand" href="#">Social Insecurity</a>
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">Social Insecurity</a>
+        </div>
       </nav>
+      <!-- Navbar - Logged in -->
     {% else %}
       <nav class="navbar navbar-dark bg-primary navbar-expand-lg fixed-top">
-        <a class="navbar-brand" href={{ url_for('stream', username=username) }}>Social Insecurity</a>
-        <button class="navbar-toggler"
-                type="button"
-                data-toggle="collapse"
-                data-target="#navbar-toggle"
-                aria-controls="navbar-toggle"
-                aria-expanded="false"
-                aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbar-toggle">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-              {% if title == 'Stream' or title == 'Comments' %}
-                <a class="nav-link active" href={{ url_for('stream', username=username) }}>Stream <span class="sr-only">(current)</span></a>
-              {% else %}
-                <a class="nav-link" href={{ url_for('stream', username=username) }}>Stream</a>
-              {% endif %}
-            </li>
-            <li class="nav-item">
-              {% if title == 'Friends' %}
-                <a class="nav-link active" href={{ url_for('friends', username=username) }}>Friends <span class="sr-only">(current)</span></a>
-              {% else %}
-                <a class="nav-link" href={{ url_for('friends', username=username) }}>Friends</a>
-              {% endif %}
-            </li>
-            <li class="nav-item">
-              {% if title == 'Profile' %}
-                <a class="nav-link" href={{ url_for('profile', username=username) }}>Profile <span class="sr-only">(current)</span></a>
-              {% else %}
-                <a class="nav-link" href={{ url_for('profile', username=username) }}>Profile</a>
-              {% endif %}
-            </li>
-          </ul>
-          <a class="btn btn-outline-dark" href={{ url_for('index') }} role="button">Log Out</a>
+        <div class="container-fluid">
+          <button class="navbar-toggler"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target="#navbar-toggle"
+                  aria-controls="navbar-toggle"
+                  aria-expanded="false"
+                  aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbar-toggle">
+            <a class="navbar-brand" href={{ url_for('stream', username=username) }}>Social Insecurity</a>
+            <ul class="navbar-nav me-auto mb-lg-0">
+              <li class="nav-item active">
+                {% if title == 'Stream' or title == 'Comments' %}
+                  <a class="nav-link active" href={{ url_for('stream', username=username) }}>Stream<span class="sr-only">(current)</span></a>
+                {% else %}
+                  <a class="nav-link" href={{ url_for('stream', username=username) }}>Stream</a>
+                {% endif %}
+              </li>
+              <li class="nav-item">
+                {% if title == 'Friends' %}
+                  <a class="nav-link active" href={{ url_for('friends', username=username) }}>Friends<span class="sr-only">(current)</span></a>
+                {% else %}
+                  <a class="nav-link" href={{ url_for('friends', username=username) }}>Friends</a>
+                {% endif %}
+              </li>
+              <li class="nav-item">
+                {% if title == 'Profile' %}
+                  <a class="nav-link active" href={{ url_for('profile', username=username) }}>Profile<span class="sr-only">(current)</span></a>
+                {% else %}
+                  <a class="nav-link" href={{ url_for('profile', username=username) }}>Profile</a>
+                {% endif %}
+              </li>
+              <li class="nav-item">
+                <a class="nav-link link-light" href={{ url_for('index') }} role="button">Log Out</a>
+              </li>
+            </ul>
+          </div>
         </div>
       </nav>
     {% endif %}
+    <!-- Flash messages dialog -->
     {% with messages = get_flashed_messages() %}
       {% if messages %}
         {% for message in messages %}
           <div class="alert alert-info alert-dismissible fade show" role="alert">
             <strong>Info:</strong> {{ message }}
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
+              <span class="fa fa-times" aria-hidden="true"></span>
             </button>
           </div>
         {% endfor %}
       {% endif %}
     {% endwith %}
-    {% block content %}
-    {% endblock content %}
+    <main>
+      <!-- Content from child templates -->
+      {% block content %}
+      {% endblock content %}
+    </main>
     <!-- Popper JS v2.9.2 -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
             integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"

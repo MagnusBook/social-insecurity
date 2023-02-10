@@ -1,34 +1,36 @@
 {% extends "base.html.j2" %}
 {% block content %}
+  <!-- Post creation card -->
   <div class="container-flex justify-content-center">
     <div class="row justify-content-center">
       <div class="col-sm-12 col-lg-6">
-        <div class="card">
+        <div class="card mb-3">
           <div class="card-body">
-            <h1>Share something</h1>
+            <h4 class="card-title mb-3">Share something</h4>
             <form action="" method="post" novalidate enctype="multipart/form-data">
-              {{ form.content }}
-              {{ form.image }}
-              {{ form.submit(class="btn btn-primary") }}
+              <div class="mb-3">{{ form.content(class_="form-control") }}</div>
+              <div class="mb-3">{{ form.image(class_="form-control") }}</div>
+              <div>{{ form.submit(class_="btn btn-primary") }}</div>
             </form>
           </div>
         </div>
       </div>
     </div>
+    <!-- Posts feed cards -->
     {% for post in posts %}
       <div class="row justify-content-center">
         <div class="col-sm-12 col-lg-6">
-          <div class="card">
+          <div class="card mb-3">
             <div class="card-header">
               <div class="row align-items-center">
-                <a class="col-4" href={{ url_for('profile', username=post.username) }}><span class="fa fa-user" style="font-size: 25px"></span>&nbsp;{{ post.username }}</a>
+                <a class="col-4" href={{ url_for('profile', username=post.username) }}><span class="fa fa-user me-1" aria-hidden="true"></span>{{ post.username }}</a>
                 <span class="col-8 text-right">{{ post.creation_time }}</span>
               </div>
             </div>
             <div class="card-body">
               <p class="card-text">{{ post.content }}</p>
               {% if post.image %}<img src="{{ '/static/uploads/' + post.image }}" class="card-img-bottom">{% endif %}
-              <a href={{ url_for('comments', username=username, p_id=post.id) }}><span class="fa fa-comment"></span>&nbsp;Comments({{ post.cc }})</a>
+              <a href={{ url_for('comments', username=username, p_id=post.id) }}><span class="fa fa-comment me-1" aria-hidden="true"></span>Comments({{ post.cc }})</a>
             </div>
           </div>
         </div>

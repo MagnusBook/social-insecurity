@@ -1,39 +1,44 @@
 {% extends "base.html.j2" %}
 {% block content %}
-  <div class="jumbotron jumbotron-fluid">
+  <!-- Jumbotron -->
+  <div class="bg-light p-5 rounded mx-3 mb-4">
     <div class="container">
       <h1 class="display-4">Social Insecurity</h1>
-      <p class="lead">The social network for the insecure&trade;</p>
+      <p class="lead">The social network for the insecure™</p>
     </div>
   </div>
   <div class="container-fluid">
     <div class="row">
+      <!-- Login Form Card -->
       <div class="col-sm-12 col-lg-6">
-        <div class="card text-center">
+        <div class="card text-center mb-3">
           <div class="card-header">Sign In</div>
           <div class="card-body">
-            <h5 class="card-title">Access an existing profile</h5>
+            <h5 class="card-title mb-3">Access an existing profile</h5>
             <form action="" method="post" novalidate>
-              {{ form.login.username }}
-              {{ form.login.password }}
-              {{ form.login.remember_me }}
-              {{ form.login.submit(class_="btn btn-primary") }}
+              <div class="mb-3">{{ form.login.username(class_="form-control") }}</div>
+              <div class="mb-3">{{ form.login.password(class_="form-control") }}</div>
+              <div class="mb-3 form-check form-check-inline">
+                {{ form.login.remember_me(class_="form-check-input") }} {{ form.login.remember_me.label(class_="form-check-label") }}
+              </div>
+              <div>{{ form.login.submit(class_="btn btn-primary") }}</div>
             </form>
           </div>
         </div>
       </div>
+      <!-- Register Form Card -->
       <div class="col-sm-12 col-lg-6">
-        <div class="card text-center">
+        <div class="card text-center mb-3">
           <div class="card-header">Register</div>
           <div class="card-body">
-            <h5 class="card-title">Create a new profile</h5>
+            <h5 class="card-title mb-3">Create a new profile</h5>
             <form action="", method="post" novalidate>
-              {{ form.register.first_name }}
-              {{ form.register.last_name }}
-              {{ form.register.username }}
-              {{ form.register.password }}
-              {{ form.register.confirm_password }}
-              {{ form.register.submit(class_="btn btn-primary") }}
+              <div class="mb-3">{{ form.register.first_name(class_="form-control") }}</div>
+              <div class="mb-3">{{ form.register.last_name(class_="form-control") }}</div>
+              <div class="mb-3">{{ form.register.username(class_="form-control") }}</div>
+              <div class="mb-3">{{ form.register.password(class_="form-control") }}</div>
+              <div class="mb-3">{{ form.register.confirm_password(class_="form-control") }}</div>
+              <div>{{ form.register.submit(class_="btn btn-primary") }}</div>
             </form>
           </div>
         </div>

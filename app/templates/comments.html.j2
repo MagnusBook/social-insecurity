@@ -2,11 +2,12 @@
 {% block content %}
   <div class="container-flex justify-content-center">
     <div class="row justify-content-center">
+      <!-- Comment card -->
       <div class="col-sm-12 col-lg-6">
-        <div class="card">
+        <div class="card mb-3">
           <div class="card-header">
             <div class="row align-items-center">
-              <span class="fa fa-user col-1" style="font-size: 25px"></span>
+              <span class="fa fa-user col-1" aria-hidden="true"></span>
               <span class="col-3 text-left">{{ post.username }}</span>
               <span class="col-8 text-right">{{ post.creation_time }}</span>
             </div>
@@ -14,17 +15,16 @@
           <div class="card-body">
             <p class="card-text">{{ post.content }}</p>
             {% if post.image %}<img src="{{ '/static/uploads/' + post.image }}" class="card-img-bottom">{% endif %}
-            <h4 class="card-text">Comments</h4>
+            <h4 class="card-text mb-3">Comments</h4>
             <form action="" method="post" novalidate>
-              {{ form.comment }}
-              {{ form.submit(class="btn btn-primary") }}
+              <div class="mb-3">{{ form.comment(class_="form-control") }}</div>
+              <div class="mb-3">{{ form.submit(class_="btn btn-primary") }}</div>
             </form>
-            <br/>
             <ul class="list-group list-group-flush">
               {% for comment in comments %}
                 <li class="list-group-item">
                   <div class="row align-items-center">
-                    <a class="col-4" href={{ url_for('profile', username=comment.username) }}><span class="fa fa-user" style="font-size: 25px"></span>&nbsp;{{ comment.username }}</a>
+                    <a class="col-4" href={{ url_for('profile', username=comment.username) }}><span class="fa fa-user me-1" aria-hidden="true"></span>{{ comment.username }}</a>
                     <span class="col-8 text-right">{{ post.creation_time }}</span>
                   </div>
                   <p>{{ comment.comment }}</p>

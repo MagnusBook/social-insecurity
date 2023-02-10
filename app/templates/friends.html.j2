@@ -2,25 +2,25 @@
 {% block content %}
   <div class="container-flex justify-content-center">
     <div class="row justify-content-center">
+      <!-- Add friend card -->
       <div class="col-sm-12 col-lg-6">
-        <div class="card">
+        <div class="card mb-3">
           <div class="card-body">
-            <h1 class="card-text">
-              <span class="fa fa-user-plus"></span>&nbsp;Add a new friend
-            </h1>
+            <h4 class="card-title mb-3">Add a new friend</h4>
             <form action="" method="post" novalidate>
-              {{ form.username }}
-              {{ form.submit(class="btn btn-primary") }}
+              <div class="mb-3">{{ form.username(class_="form-control") }}</div>
+              <div>{{ form.submit(class="btn btn-primary") }}</div>
             </form>
           </div>
         </div>
       </div>
     </div>
     <div class="row justify-content-center">
+      <!-- Your friends card -->
       <div class="col-sm-12 col-lg-6">
         <div class="card">
           <div class="card-body">
-            <h1 class="card-text">Your friends</h1>
+            <h4 class="card-title">Your friends</h4>
             <ul class="list-group list-group-flush">
               {% for friend in friends %}
                 <li class="list-group-item">

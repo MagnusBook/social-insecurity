@@ -122,4 +122,4 @@ def profile(username):
         return redirect(url_for("profile", username=username))
 
     user = query_db('SELECT * FROM Users WHERE username="{}";'.format(username), one=True)
-    return render_template("profile.html.j2", title="profile", username=username, user=user, form=form)
+    return render_template("profile.html.j2", title="Profile", username=username, user=user, form=form)
