@@ -2,6 +2,8 @@ from flask import Flask, g
 from config import Config
 
 # from flask_login import LoginManager
+# from flask_bcrypt import Bcrypt
+# from flask_wtf.csrf import CSRFProtect
 import sqlite3
 import os
 
@@ -11,6 +13,12 @@ app.config.from_object(Config)
 
 # TODO: Handle login management better, maybe with flask_login?
 # login = LoginManager(app)
+
+# TODO: The passwords are stored in plaintext, this is not secure at all. I should probably use bcrypt or something
+# bcrypt = Bcrypt(app)
+
+# TODO: The CSRF protection is not working, I should probably fix that
+# csrf = CSRFProtect(app)
 
 
 # get an instance of the db
@@ -59,4 +67,5 @@ if not os.path.exists(app.config["DATABASE"]):
 if not os.path.exists(app.config["UPLOAD_PATH"]):
     os.mkdir(app.config["UPLOAD_PATH"])
 
+# Import the routes after the app is configured
 from app import routes

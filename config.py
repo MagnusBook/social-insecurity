@@ -7,4 +7,5 @@ class Config(object):
     SECRET_KEY = os.environ.get("SECRET_KEY") or "secret"  # TODO: Use this with wtforms
     DATABASE = "database.db"
     UPLOAD_PATH = "app/static/uploads"
-    ALLOWED_EXTENSIONS = {}  # Might use this at some point, probably don't want people to upload any file type
+    ALLOWED_EXTENSIONS = {}  # TODO: Might use this at some point, probably don't want people to upload any file type
+    WTF_CSRF_ENABLED = False  # TODO: I should probably implement this wtforms feature, but it's not a priority
