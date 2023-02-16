@@ -1,8 +1,10 @@
-from flask import render_template, flash, redirect, url_for, request
-from app import app, query_db
-from app.forms import IndexForm, PostForm, FriendsForm, ProfileForm, CommentsForm
-from datetime import datetime
 import os
+from datetime import datetime
+
+from flask import flash, redirect, render_template, url_for
+
+from app import app, sqlite
+from app.forms import CommentsForm, FriendsForm, IndexForm, PostForm, ProfileForm
 
 # this file contains all the different routes, and the logic for communicating with the database
 
@@ -14,7 +16,12 @@ def index():
     form = IndexForm()
 
     if form.login.is_submitted() and form.login.submit.data:
-        user = query_db('SELECT * FROM Users WHERE username="{}";'.format(form.login.username.data), one=True)
+        user = sqlite.query(
+            'SELECT * FROM Users WHERE username="{}";'.format(
+                form.login.username.data,
+            ),
+            one=True,
+        )
         if user == None:
             flash("Sorry, this user does not exist!")
         elif user["password"] == form.login.password.data:
@@ -23,7 +30,7 @@ def index():
             flash("Sorry, wrong password!")
 
     elif form.register.is_submitted() and form.register.submit.data:
-        query_db(
+        sqlite.query(
             'INSERT INTO Users (username, first_name, last_name, password) VALUES("{}", "{}", "{}", "{}");'.format(
                 form.register.username.data,
                 form.register.first_name.data,
@@ -39,22 +46,30 @@ def index():
 @app.route("/stream/<username>", methods=["GET", "POST"])
 def stream(username):
     form = PostForm()
-    user = query_db('SELECT * FROM Users WHERE username="{}";'.format(username), one=True)
+    user = sqlite.query(
+        'SELECT * FROM Users WHERE username="{}";'.format(
+            username,
+        ),
+        one=True,
+    )
     if form.is_submitted():
         if form.image.data:
             path = os.path.join(app.config["UPLOAD_PATH"], form.image.data.filename)
             form.image.data.save(path)
 
-        query_db(
+        sqlite.query(
             'INSERT INTO Posts (u_id, content, image, creation_time) VALUES({}, "{}", "{}", \'{}\');'.format(
-                user["id"], form.content.data, form.image.data.filename, datetime.now()
+                user["id"],
+                form.content.data,
+                form.image.data.filename,
+                datetime.now(),
             )
         )
         return redirect(url_for("stream", username=username))
 
-    posts = query_db(
+    posts = sqlite.query(
         "SELECT p.*, u.*, (SELECT COUNT(*) FROM Comments WHERE p_id=p.id) AS cc FROM Posts AS p JOIN Users AS u ON u.id=p.u_id WHERE p.u_id IN (SELECT u_id FROM Friends WHERE f_id={0}) OR p.u_id IN (SELECT f_id FROM Friends WHERE u_id={0}) OR p.u_id={0} ORDER BY p.creation_time DESC;".format(
-            user["id"]
+            user["id"],
         )
     )
     return render_template("stream.html.j2", title="Stream", username=username, form=form, posts=posts)
@@ -65,15 +80,28 @@ def stream(username):
 def comments(username, p_id):
     form = CommentsForm()
     if form.is_submitted():
-        user = query_db('SELECT * FROM Users WHERE username="{}";'.format(username), one=True)
-        query_db(
+        user = sqlite.query(
+            'SELECT * FROM Users WHERE username="{}";'.format(
+                username,
+            ),
+            one=True,
+        )
+        sqlite.query(
             "INSERT INTO Comments (p_id, u_id, comment, creation_time) VALUES({}, {}, \"{}\", '{}');".format(
-                p_id, user["id"], form.comment.data, datetime.now()
+                p_id,
+                user["id"],
+                form.comment.data,
+                datetime.now(),
             )
         )
 
-    post = query_db("SELECT * FROM Posts WHERE id={};".format(p_id), one=True)
-    all_comments = query_db(
+    post = sqlite.query(
+        "SELECT * FROM Posts WHERE id={};".format(
+            p_id,
+        ),
+        one=True,
+    )
+    all_comments = sqlite.query(
         "SELECT DISTINCT * FROM Comments AS c JOIN Users AS u ON c.u_id=u.id WHERE c.p_id={} ORDER BY c.creation_time DESC;".format(
             p_id
         )
@@ -87,17 +115,28 @@ def comments(username, p_id):
 @app.route("/friends/<username>", methods=["GET", "POST"])
 def friends(username):
     form = FriendsForm()
-    user = query_db('SELECT * FROM Users WHERE username="{}";'.format(username), one=True)
+    user = sqlite.query(
+        'SELECT * FROM Users WHERE username="{}";'.format(
+            username,
+        ),
+        one=True,
+    )
     if form.is_submitted():
-        friend = query_db('SELECT * FROM Users WHERE username="{}";'.format(form.username.data), one=True)
+        friend = sqlite.query('SELECT * FROM Users WHERE username="{}";'.format(form.username.data), one=True)
         if friend is None:
             flash("User does not exist")
         else:
-            query_db("INSERT INTO Friends (u_id, f_id) VALUES({}, {});".format(user["id"], friend["id"]))
+            sqlite.query(
+                "INSERT INTO Friends (u_id, f_id) VALUES({}, {});".format(
+                    user["id"],
+                    friend["id"],
+                )
+            )
 
-    all_friends = query_db(
+    all_friends = sqlite.query(
         "SELECT * FROM Friends AS f JOIN Users as u ON f.f_id=u.id WHERE f.u_id={} AND f.f_id!={} ;".format(
-            user["id"], user["id"]
+            user["id"],
+            user["id"],
         )
     )
     return render_template("friends.html.j2", title="Friends", username=username, friends=all_friends, form=form)
@@ -108,7 +147,7 @@ def friends(username):
 def profile(username):
     form = ProfileForm()
     if form.is_submitted():
-        query_db(
+        sqlite.query(
             'UPDATE Users SET education="{}", employment="{}", music="{}", movie="{}", nationality="{}", birthday=\'{}\' WHERE username="{}" ;'.format(
                 form.education.data,
                 form.employment.data,
@@ -121,5 +160,10 @@ def profile(username):
         )
         return redirect(url_for("profile", username=username))
 
-    user = query_db('SELECT * FROM Users WHERE username="{}";'.format(username), one=True)
+    user = sqlite.query(
+        'SELECT * FROM Users WHERE username="{}";'.format(
+            username,
+        ),
+        one=True,
+    )
     return render_template("profile.html.j2", title="Profile", username=username, user=user, form=form)
