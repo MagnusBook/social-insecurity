@@ -1,82 +1,115 @@
-# social-insecurity
+# Social Insecurity
 
+## About the project
 This project defines a social media web application lacking many key security features. The goal is to identify as many of these as possible, and then proceed to patch them. It can also be used for practice from the perspective of an attacker.
 
-There are also some comments around the code from the "previous developers" that didn't have time to focus on security while developing the application. These may point in a possible direction to improve security, but of course you are free to choose your own path and implementation.
+There are also some comments around the code from the “previous developers” that didn’t have time to focus on security while developing the application. These may point in a possible direction to improve security, but of course you are free to choose your own path and implementation.
 
-## Installing dependencies
-Within the root folder of this application, ther is a `requirements.txt` file, which lists all the python requirements necessary to run the application. If you do not have pyhon installed, I would recommend installing  [anaconda](https://www.anaconda.com/distribution/), since it comes with many packages pre-installed, as well as some other useful tools.
+## Getting started
 
-It should be noted that this application has only been run in a python 3.7 environment so far, but other python 3 versions will likely work as well.
+### Prerequisites
+- Python 3.9 or greater
+- [PDM](https://daobook.github.io/pdm/) (Python Development Master)
 
-The following command install all required dependencies:
+This project uses PDM as a package manager, which is similar to pip, but with more modern features. To install PDM for your operating system, follow the instructions on the [PDM website](https://daobook.github.io/pdm/#installation).
 
+### Installing
+
+Within the root folder of this application, there is a `pyproject.toml` file, which lists all the Python requirements necessary to run the application.
+
+The following command will install all required production and development dependencies in a virtual environment within the project’s root folder:
+
+```sh
+pdm install
 ```
-pip install -r requirements.txt
+
+Modern IDEs such as Visual Studio Code, PyCharm, etc. should automatically detect the virtual environment created by PDM within the project’s root folder, and use it for the project. If not, you can manually select the virtual environment by following the instructions found on your IDE’s support pages.
+
+### Structure
+
+```sh
+social-insecurity
+├── app
+│   ├── static
+│   │   └── css
+│   │       └── general.css
+│   ├── templates
+│   │   ├── base.html.j2
+│   │   ├── comments.html.j2
+│   │   ├── friends.html.j2
+│   │   ├── index.html.j2
+│   │   ├── profile.html.j2
+│   │   └── stream.html.j2
+│   ├── __init__.py
+│   ├── database.py
+│   ├── forms.py
+│   ├── routes.py
+│   └── schema.sql
+├── LICENSE.md
+├── README.md
+├── config.py
+├── pdm.lock
+├── pyproject.toml
+└── socialinsecurity.py
 ```
 
-## Starting the application
-Run the following command to start the Flask application:
+The most important files and directories:
+- `app/`: This directory is the root of the application, this is from where the pages are served.
+- `__init__.py`: Initializes the application.
+- `database.py`: Contains the database connection and functions for interacting with the database.
+- `forms.py`: Defines the forms that the users will use to input information.
+- `routes.py`: Implements the routing between different pages, handles form input and database calls.
+- `schema.sql`: Defines the database tables, and their relations.
+- `app/static/`: Static content, such as CSS, JavaScript and images can be stored and accessed here from anywhere in the application.
+- `app/templates/`: Contains all the HTML in a template format. This allows the Flask backend to display content dynamically, by integrating logical operators and variables into HTML. These are populated once the user requests one of the sites.
+- `config.py`: Contains the configuration for the application.
+- `pyproject.toml`: Contains the dependencies for the application.
+- `socialinsecurity.py`: The entry point for the application.
 
-```
-flask run
+## Usage
+### Starting the application
+Run the following command to start the Flask application in debug mode:
+
+```sh
+pdm run flask --debug run
 ```
 
 You should now be able to access the application through your web browser by accessing [localhost:5000](http://localhost:5000) in the address bar.
 
-## Common issues
-Some installations show an error similar to this when starting the application for the first time: 
+### Adding dependencies
+To install a new dependency, run the following command:
 
-```
-sqlite3.OperationalError: near "FOREIGN": syntax error
-```
-
-This can be safely ignored, since the most important parts of the database have been prepared by this point.
-
-## Structure
-```
-social-insecurity
-│   .flaskenv
-|   config.py
-│   README.md
-│   requirements.txt
-│   socialinsecurity.py
-│
-└───app
-│   │   __init__.py
-│   │   forms.py
-│   │   routes.py
-│   │   schema.sql
-│   │
-│   └───static
-│   |   │   css
-│   |   │   js
-│   |   │   uploads
-|   |
-|   |___templates
-│       │   base.html
-│       │   comments.html
-│       │   friends.html
-│       │   index.html
-│       │   profile.html
-│       │   stream.html
+```sh
+pdm add <package>
 ```
 
-Most important files/directories:
-- `config.py`: Contains configuration for the application.
-- `app/`: This directory is the root of the application, this is from where the pages are served.
-- `__init__.py`: Initializes the application and the database.
-- `forms.py`: Defines the forms that the users will use to input information
-- `routes.py`: Implements the routing between different pages, and handles form input.
-- `schema.sql`: Defines the database tables, and their relations.
-- `static/`: Static content, such as css, JavaScript and images can be stored and accessed here from anywhere in the application.
-- `templates`: Contains all the HTML in a template format. This allows the Flask backend to display content dynamically, by integrating logical operators and variables into HTML. These are populated once the user requests one of the sites.
+### Removing dependencies
+To remove a dependency, run the following command:
+
+```sh
+pdm remove <package>
+```
+
+### Updating dependencies
+To update all dependencies, run the following command:
+
+```sh
+pdm update
+```
 
 ## Useful resources
-- [Good tutorial for flask](https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world)
-- [Reference and tutorial for SQL](https://www.w3schools.com/sql/default.asp)
+### Tutorials
+- [The Flask Mega-Tutorial](https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world)
+- [The Flask Quickstart guide](https://flask.palletsprojects.com/en/2.2.x/quickstart/)
+- [Reference and tutorial for SQL](https://www.w3schools.com/sql/)
 - [Git and GitHub tutorial - Useful for collaborating with your team](https://towardsdatascience.com/getting-started-with-git-and-github-6fcd0f2d4ac6)
-- [JavaScript tutorial and reference](https://www.w3schools.com/js/default.asp)
+
+### Documentation
+- [Flask documentation](https://flask.palletsprojects.com/)
+- [Flask-WTF documentation](https://flask-wtf.readthedocs.io/)
+- [Flask-Login documentation](https://flask-login.readthedocs.io/)
+- [Flask-Bcrypt documentation](https://flask-bcrypt.readthedocs.io/)
+- [PDM documentation](https://daobook.github.io/pdm/)
 
 ## Questions
 If you have any questions or problems, don't hesitate to contact me, and I will get back to you as soon as possible.
