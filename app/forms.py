@@ -1,3 +1,20 @@
+"""Provides all forms used in the Social Insecurity application.
+
+This file is used to define all forms used in the application.
+It is imported by the app package.
+
+Example:
+    from flask import Flask
+    from app.forms import LoginForm
+
+    app = Flask(__name__)
+
+    # Use the form
+    form = LoginForm()
+    if form.validate_on_submit() and form.login.submit.data:
+        username = form.username.data
+    """
+
 from typing import cast
 
 from flask_wtf import FlaskForm

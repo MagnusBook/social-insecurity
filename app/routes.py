@@ -1,3 +1,9 @@
+"""Provides all routes for the Social Insecurity application.
+
+This file contains the routes for the application. It is imported by the app package.
+It also contains the SQL queries used for communicating with the database.
+"""
+
 import os
 from datetime import datetime
 
@@ -6,22 +12,22 @@ from flask import flash, redirect, render_template, url_for
 from app import app, sqlite
 from app.forms import CommentsForm, FriendsForm, IndexForm, PostForm, ProfileForm
 
-# this file contains all the different routes, and the logic for communicating with the database
 
-
-# home page/login/registration
 @app.route("/", methods=["GET", "POST"])
 @app.route("/index", methods=["GET", "POST"])
 def index():
+    """Provides the index page for the application.
+
+    It reads the composite IndexForm and based on which form was submitted,
+    it either logs the user in or registers a new user.
+
+    If no form was submitted, it simply renders the index page.
+    """
     form = IndexForm()
 
     if form.login.is_submitted() and form.login.submit.data:
-        user = sqlite.query(
-            'SELECT * FROM Users WHERE username="{}";'.format(
-                form.login.username.data,
-            ),
-            one=True,
-        )
+        user = sqlite.query('SELECT * FROM Users WHERE username="{}";'.format(form.login.username.data), one=True)
+
         if user == None:
             flash("Sorry, this user does not exist!")
         elif user["password"] == form.login.password.data:
@@ -38,20 +44,23 @@ def index():
                 form.register.password.data,
             )
         )
+        flash("User successfully created!")
         return redirect(url_for("index"))
+
     return render_template("index.html.j2", title="Welcome", form=form)
 
 
-# content stream page
-@app.route("/stream/<username>", methods=["GET", "POST"])
-def stream(username):
+@app.route("/stream/<string:username>", methods=["GET", "POST"])
+def stream(username: str):
+    """Provides the stream page for the application.
+
+    If a form was submitted, it reads the form data and inserts a new post into the database.
+
+    Otherwise, it reads the username from the URL and displays all posts from the user and their friends.
+    """
     form = PostForm()
-    user = sqlite.query(
-        'SELECT * FROM Users WHERE username="{}";'.format(
-            username,
-        ),
-        one=True,
-    )
+    user = sqlite.query('SELECT * FROM Users WHERE username="{}";'.format(username), one=True)
+
     if form.is_submitted():
         if form.image.data:
             path = os.path.join(app.config["UPLOAD_PATH"], form.image.data.filename)
@@ -75,17 +84,18 @@ def stream(username):
     return render_template("stream.html.j2", title="Stream", username=username, form=form, posts=posts)
 
 
-# comment page for a given post and user.
-@app.route("/comments/<username>/<int:p_id>", methods=["GET", "POST"])
-def comments(username, p_id):
+@app.route("/comments/<string:username>/<int:p_id>", methods=["GET", "POST"])
+def comments(username: str, p_id: str):
+    """Provides the comments page for the application.
+
+    If a form was submitted, it reads the form data and inserts a new comment into the database.
+
+    Otherwise, it reads the username and post id from the URL and displays all comments for the post.
+    """
     form = CommentsForm()
+
     if form.is_submitted():
-        user = sqlite.query(
-            'SELECT * FROM Users WHERE username="{}";'.format(
-                username,
-            ),
-            one=True,
-        )
+        user = sqlite.query('SELECT * FROM Users WHERE username="{}";'.format(username), one=True)
         sqlite.query(
             "INSERT INTO Comments (p_id, u_id, comment, creation_time) VALUES({}, {}, \"{}\", '{}');".format(
                 p_id,
@@ -95,15 +105,10 @@ def comments(username, p_id):
             )
         )
 
-    post = sqlite.query(
-        "SELECT * FROM Posts WHERE id={};".format(
-            p_id,
-        ),
-        one=True,
-    )
+    post = sqlite.query("SELECT * FROM Posts WHERE id={};".format(p_id), one=True)
     all_comments = sqlite.query(
         "SELECT DISTINCT * FROM Comments AS c JOIN Users AS u ON c.u_id=u.id WHERE c.p_id={} ORDER BY c.creation_time DESC;".format(
-            p_id
+            p_id,
         )
     )
     return render_template(
@@ -111,18 +116,20 @@ def comments(username, p_id):
     )
 
 
-# page for seeing and adding friends
-@app.route("/friends/<username>", methods=["GET", "POST"])
-def friends(username):
+@app.route("/friends/<string:username>", methods=["GET", "POST"])
+def friends(username: str):
+    """Provides the friends page for the application.
+
+    If a form was submitted, it reads the form data and inserts a new friend into the database.
+
+    Otherwise, it reads the username from the URL and displays all friends of the user.
+    """
     form = FriendsForm()
-    user = sqlite.query(
-        'SELECT * FROM Users WHERE username="{}";'.format(
-            username,
-        ),
-        one=True,
-    )
+    user = sqlite.query('SELECT * FROM Users WHERE username="{}";'.format(username), one=True)
+
     if form.is_submitted():
         friend = sqlite.query('SELECT * FROM Users WHERE username="{}";'.format(form.username.data), one=True)
+
         if friend is None:
             flash("User does not exist")
         else:
@@ -143,9 +150,16 @@ def friends(username):
 
 
 # see and edit detailed profile information of a user
-@app.route("/profile/<username>", methods=["GET", "POST"])
-def profile(username):
+@app.route("/profile/<string:username>", methods=["GET", "POST"])
+def profile(username: str):
+    """Provides the profile page for the application.
+
+    If a form was submitted, it reads the form data and updates the user's profile in the database.
+
+    Otherwise, it reads the username from the URL and displays the user's profile.
+    """
     form = ProfileForm()
+
     if form.is_submitted():
         sqlite.query(
             'UPDATE Users SET education="{}", employment="{}", music="{}", movie="{}", nationality="{}", birthday=\'{}\' WHERE username="{}" ;'.format(

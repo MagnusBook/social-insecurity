@@ -1,13 +1,43 @@
+"""Provides a SQLite3 database extension for Flask.
+
+This extension provides a simple interface to the SQLite3 database.
+
+Example:
+    from flask import Flask
+    from app.database import SQLite3
+
+    app = Flask(__name__)
+    db = SQLite3(app)
+"""
+
 from __future__ import annotations
 
 import os
 import sqlite3
-from typing import Optional, Union, cast
+from typing import Any, Optional, cast
 
 from flask import Flask, current_app
 
 
 class SQLite3:
+    """Provides a SQLite3 database extension for Flask.
+
+    This class provides a simple interface to the SQLite3 database.
+    It also initializes the database if it does not exist yet.
+
+    Example:
+        from flask import Flask
+        from app.database import SQLite3
+
+        app = Flask(__name__)
+        db = SQLite3(app)
+
+        # Use the database
+        # db.query("SELECT * FROM Users;")
+        # db.query("SELECT * FROM Users WHERE id = 1;", one=True)
+        # db.query("INSERT INTO Users (name, email) VALUES ('John', 'test@test.net');")
+    """
+
     def __init__(self, app: Optional[Flask] = None, path: Optional[str] = None) -> None:
         if app is not None:
             self.init_app(app, path)
@@ -30,18 +60,16 @@ class SQLite3:
             self.connection.row_factory = sqlite3.Row
         return self._connection
 
-    def _register(self, app: Flask) -> None:
-        """Registers the extension with the application."""
-        if not hasattr(app, "extensions"):
-            app.extensions = {}
+    def query(self, query: str, one: bool = False) -> Any:
+        """Queries the database and returns the result.'
 
-        if "sqlite3" not in app.extensions:
-            app.extensions["sqlite3"] = self
-        else:
-            raise RuntimeError("Flask extension already initialized")
+        params:
+            query: The SQL query to execute.
+            one: Whether to return a single row or a list of rows.
 
-    def query(self, query: str, one: bool = False) -> Union[sqlite3.Row, list[sqlite3.Row], None]:
-        """Queries the database and returns the result."""
+        returns: A single row, a list of rows or None.
+
+        """
         cursor = self.connection.execute(query)
 
         if one:
@@ -51,25 +79,30 @@ class SQLite3:
 
         cursor.close()
         self.connection.commit()
-
         return response
 
     # TODO: Add more specific query methods to simplify code
 
+    def _register(self, app: Flask) -> None:
+        if not hasattr(app, "extensions"):
+            app.extensions = {}
+
+        if "sqlite3" not in app.extensions:
+            app.extensions["sqlite3"] = self
+        else:
+            raise RuntimeError("Flask extension already initialized")
+
     def _init_database(self) -> None:
-        """Initialize the SQLite3 database."""
         if not os.path.exists(current_app.instance_path + self._path):
             with current_app.open_resource("schema.sql", mode="r") as file:
                 self.connection.executescript(file.read())
                 self.connection.commit()
 
     def _open_connection(self) -> None:
-        """Opens a connection to the SQLite3 database."""
         if not self._connection:
             self._connection = sqlite3.connect(self._path)
             self.connection.row_factory = sqlite3.Row
 
     def _close_connection(self, exception: Optional[BaseException] = None) -> None:
-        """Closes the connection to the SQLite3 database."""
         if self._connection:
             self._connection = self._connection.close()

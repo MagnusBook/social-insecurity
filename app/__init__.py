@@ -1,3 +1,5 @@
+"""Provides the app package for the Social Insecurity application. The package contains the Flask app and all of the extensions and routes."""
+
 from flask import Flask
 
 from app.database import SQLite3
