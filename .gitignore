@@ -170,3 +170,10 @@ cython_debug/
 
 # Built Visual Studio Code Extensions
 *.vsix
+
+
+# DATABASE
+
+# SQLite database
+*.sqlite
+*.db
