@@ -1,5 +1,7 @@
 """Provides the app package for the Social Insecurity application. The package contains the Flask app and all of the extensions and routes."""
 
+import os
+
 from flask import Flask
 
 from app.database import SQLite3
@@ -24,6 +26,13 @@ sqlite = SQLite3(app)
 
 # TODO: The CSRF protection is not working, I should probably fix that
 # csrf = CSRFProtect(app)
+
+
+@app.before_first_request
+def create_upload_folder():
+    if not os.path.exists(app.config["UPLOAD_PATH"]):
+        os.makedirs(app.config["UPLOAD_PATH"])
+
 
 # Import the routes after the app is configured
 from app import routes
