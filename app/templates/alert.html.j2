@@ -1,0 +1,28 @@
+<!-- Get flashed messages and message categories. -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <!-- Uses flash category to set alert type. Allowed categories are: 'info', 'success', 'warning', 'danger' -->
+      <div class="alert alert-{{ category }} alert-dismissible fade show"
+           role="alert">
+        {{ message }}
+        <button type="button"
+                class="btn-close"
+                data-bs-dismiss="alert"
+                aria-label="Close"></button>
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+<!-- If form is defined, iterate over form errors and display them. -->
+{% if form is defined %}
+  {% for _, errors in form.errors.items() %}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+      {{ ', '.join(errors) }}
+      <button type="button"
+              class="btn-close"
+              data-bs-dismiss="alert"
+              aria-label="Close"></button>
+    </div>
+  {% endfor %}
+{% endif %}

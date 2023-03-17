@@ -29,11 +29,11 @@ def index():
         user = sqlite.query('SELECT * FROM Users WHERE username="{}";'.format(form.login.username.data), one=True)
 
         if user == None:
-            flash("Sorry, this user does not exist!")
+            flash("Sorry, this user does not exist!", category="warning")
         elif user["password"] == form.login.password.data:
             return redirect(url_for("stream", username=form.login.username.data))
         else:
-            flash("Sorry, wrong password!")
+            flash("Sorry, wrong password!", category="warning")
 
     elif form.register.is_submitted() and form.register.submit.data:
         sqlite.query(
@@ -44,7 +44,7 @@ def index():
                 form.register.password.data,
             )
         )
-        flash("User successfully created!")
+        flash("User successfully created!", category="success")
         return redirect(url_for("index"))
 
     return render_template("index.html.j2", title="Welcome", form=form)
@@ -131,7 +131,7 @@ def friends(username: str):
         friend = sqlite.query('SELECT * FROM Users WHERE username="{}";'.format(form.username.data), one=True)
 
         if friend is None:
-            flash("User does not exist")
+            flash("User does not exist", category="warning")
         else:
             sqlite.query(
                 "INSERT INTO Friends (u_id, f_id) VALUES({}, {});".format(

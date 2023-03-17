@@ -70,19 +70,8 @@
         </div>
       </nav>
     {% endif %}
-    <!-- Flash messages dialog -->
-    {% with messages = get_flashed_messages() %}
-      {% if messages %}
-        {% for message in messages %}
-          <div class="alert alert-info alert-dismissible fade show" role="alert">
-            <strong>Info:</strong> {{ message }}
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-              <span class="fa fa-times" aria-hidden="true"></span>
-            </button>
-          </div>
-        {% endfor %}
-      {% endif %}
-    {% endwith %}
+    <!-- Flash alert dialog -->
+    {% include "alert.html.j2" %}
     <main>
       <!-- Content from child templates -->
       {% block content %}
