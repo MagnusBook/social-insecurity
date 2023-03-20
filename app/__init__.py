@@ -4,8 +4,8 @@ import os
 
 from flask import Flask
 
+from app.config import Config
 from app.database import SQLite3
-from config import Config
 
 # from flask_login import LoginManager
 # from flask_bcrypt import Bcrypt

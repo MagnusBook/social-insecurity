@@ -13,7 +13,13 @@ build-backend = "pdm.pep517.api"
 
 [tool.pdm]
 [tool.pdm.dev-dependencies]
-dev = ["black>=23.1.0", "isort>=5.12.0", "djlint>=1.19.13"]
+dev = [
+    "black>=23.1.0",
+    "isort>=5.12.0",
+    "djlint>=1.19.13",
+    "pytest>=7.2.2",
+    "tox>=4.4.7",
+]
 
 [tool.black]
 line-length = 120
@@ -24,3 +30,16 @@ profile = "black"
 
 [tool.djlint]
 indent = 2
+
+[tool.tox]
+legacy_tox_ini = """
+[tox]
+envlist = py39, py310, py311
+isolated_build = true
+
+[testenv]
+deps =
+    flask
+    pytest
+commands = pytest {posargs}
+"""
