@@ -43,12 +43,13 @@ class SQLite3:
             self.init_app(app, path)
 
     def init_app(self, app: Flask, path: Optional[str] = None) -> None:
-        """Initalizes the application with the extension."""
+        """Initializes the application with the extension."""
         self._path = path or cast(str, app.config.setdefault("SQLITE3_DATABASE", "sqlite3.db"))
         self._connection: Optional[sqlite3.Connection] = None
 
         self._register(app)
-        app.before_first_request(self._init_database)
+        with app.app_context():
+            self._init_database()
         app.before_request(self._open_connection)
         app.teardown_appcontext(self._close_connection)
 

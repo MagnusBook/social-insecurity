@@ -28,8 +28,7 @@ sqlite = SQLite3(app)
 # csrf = CSRFProtect(app)
 
 
-@app.before_first_request
-def create_upload_folder():
+with app.app_context():
     if not os.path.exists(app.config["UPLOAD_PATH"]):
         os.makedirs(app.config["UPLOAD_PATH"])
 
