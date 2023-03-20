@@ -45,6 +45,8 @@ social-insecurity
 │   ├── forms.py
 │   ├── routes.py
 │   └── schema.sql
+├── tests
+│   └── test_routes.py
 ├── LICENSE.md
 ├── README.md
 ├── config.py
@@ -62,6 +64,7 @@ The most important files and directories:
 - `schema.sql`: Defines the database tables, and their relations.
 - `app/static/`: Static content, such as CSS, JavaScript and images can be stored and accessed here from anywhere in the application.
 - `app/templates/`: Contains all the HTML in a template format. This allows the Flask backend to display content dynamically, by integrating logical operators and variables into HTML. These are populated once the user requests one of the sites.
+- `tests`: Contains simple integration tests for the application.
 - `config.py`: Contains the configuration for the application.
 - `pyproject.toml`: Contains the dependencies for the application.
 - `socialinsecurity.py`: The entry point for the application.
