@@ -28,7 +28,7 @@ def index():
     if form.login.is_submitted() and form.login.submit.data:
         user = sqlite.query('SELECT * FROM Users WHERE username="{}";'.format(form.login.username.data), one=True)
 
-        if user == None:
+        if user is None:
             flash("Sorry, this user does not exist!", category="warning")
         elif user["password"] == form.login.password.data:
             return redirect(url_for("stream", username=form.login.username.data))

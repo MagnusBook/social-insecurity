@@ -15,10 +15,10 @@ build-backend = "pdm.pep517.api"
 [tool.pdm.dev-dependencies]
 dev = [
     "black>=23.1.0",
-    "isort>=5.12.0",
     "djlint>=1.19.13",
     "pytest>=7.2.2",
     "tox>=4.4.7",
+    "ruff>=0.0.257",
 ]
 
 [tool.black]
@@ -43,3 +43,7 @@ deps =
     pytest
 commands = pytest {posargs}
 """
+
+[tool.ruff]
+line-length = 120
+target-version = 'py39'

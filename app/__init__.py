@@ -35,4 +35,4 @@ def create_upload_folder():
 
 
 # Import the routes after the app is configured
-from app import routes
+from app import routes  # noqa: E402,F401
